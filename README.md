@@ -1,8 +1,8 @@
 # .github
 
-Repository which includes template files available in all repositories of the gcx organization.
+Contains template files available in all GitHub repositories of the gcx organization.
 
-Includes:
+Included:
 - GitHub Actions workflow templates (See also [GitHub Actions @ gcx](https://wiki.gcxi.de/display/TENG/GitHub%3A+Actions))
 - Pull Request template
 
