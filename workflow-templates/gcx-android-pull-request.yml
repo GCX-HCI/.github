@@ -7,13 +7,18 @@ on:
     branches: [ $default-branch ]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  cancelPreviousRuns:
+    name: Cancel previous runs
     steps:
       - name: Cancel previous runs
         uses: styfle/cancel-workflow-action@0.6.0
         with:
           access_token: ${{ secrets.GITHUB_TOKEN }}
+
+  build:
+    name: Build all variants
+    runs-on: ubuntu-latest
+    steps:
       - name: Checkout project files
         uses: actions/checkout@v2
       - name: Set up JDK 1.8
@@ -34,12 +39,9 @@ jobs:
         timeout-minutes: 5
 
   test:
+    name: Run Unit Tests & Lint
     runs-on: ubuntu-latest
     steps:
-      - name: Cancel previous runs
-        uses: styfle/cancel-workflow-action@0.6.0
-        with:
-          access_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Checkout project files
         uses: actions/checkout@v2
       - name: Set up JDK 1.8
@@ -54,7 +56,7 @@ jobs:
             ~/.gradle/wrapper
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
           restore-keys: |
-            ${{ runner.os }}-gradle-
+            ${{ runner.os }}-gradle
       - name: Compile tests
         run: ./gradlew compileDebugUnitTests
       - name: Run tests
