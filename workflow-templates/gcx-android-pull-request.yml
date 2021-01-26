@@ -2,13 +2,16 @@ name: Pull Request
 
 on:
   push:
-    branches: [ $default-branch ]
+    branches: [ develop, $default-branch ]
   pull_request:
-    branches: [ $default-branch ]
+    types: [opened, reopened, ready_for_review, synchronize]
+    branches: [ develop, $default-branch ]
 
 jobs:
   cancelPreviousRuns:
     name: Cancel previous runs
+    if: github.event_name == 'push' || !github.event.pull_request.draft
+    runs-on: ubuntu-latest
     steps:
       - name: Cancel previous runs
         uses: styfle/cancel-workflow-action@0.6.0
@@ -17,6 +20,7 @@ jobs:
 
   build:
     name: Build all variants
+    if: github.event_name == 'push' || !github.event.pull_request.draft
     runs-on: ubuntu-latest
     steps:
       - name: Checkout project files
@@ -36,10 +40,11 @@ jobs:
             ${{ runner.os }}-gradle
       - name: Build all variants
         run: ./gradlew assemble
-        timeout-minutes: 5
+        timeout-minutes: 10
 
   test:
     name: Run Unit Tests & Lint
+    if: github.event_name == 'push' || !github.event.pull_request.draft
     runs-on: ubuntu-latest
     steps:
       - name: Checkout project files
