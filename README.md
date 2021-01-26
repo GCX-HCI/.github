@@ -4,6 +4,8 @@ Contains template files available in all GitHub repositories of the gcx organiza
 
 Included:
 - GitHub Actions workflow templates
-  - Rules & Best Practices for workflows @ gcx [GitHub Actions @ gcx](https://wiki.gcxi.de/display/TENG/GitHub%3A+Actions)
-  - Tutorial to add a new template: [Sharing workflows with your organization](https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization))
 - Pull Request template
+
+## Add a new workflow template
+
+See [GitHub Actions @ gcx](https://wiki.gcxi.de/display/TENG/GitHub%3A+Actions) to learn about rules and best practices for workflows @ gcx. Follow this tutorial to add new workflow templates to this repo: [Sharing workflows with your organization](https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization)
