@@ -1,4 +1,4 @@
-# .github
+# gcx Shared Templates
 
 Contains template files available in all GitHub repositories of the gcx organization.
 
