@@ -23,7 +23,6 @@ jobs:
       - name: Build Release
         run: ./gradlew assembleRelease
         env:
-          GITHUB_PAT: ${{ secrets.PACKAGES_READ_TOKEN }}
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           ALIAS_PASSWORD: ${{ secrets.ALIAS_PASSWORD }}
         timeout-minutes: 10
