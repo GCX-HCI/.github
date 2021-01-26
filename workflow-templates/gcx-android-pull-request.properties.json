@@ -1,0 +1,9 @@
+{
+    "name": "gcx Android Pull Request",
+    "description": "Build a basic Pull Request for an Android repository @ gcx",
+    "iconName": "gcx-icon",
+    "categories": [
+        "Gradle",
+        "Kotlin"
+    ]
+}
