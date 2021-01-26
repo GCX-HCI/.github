@@ -1,0 +1,9 @@
+{
+    "name": "gcx Android Publish Artifact",
+    "description": "Publish an artifact from an Android repository @ gcx using maven-publish",
+    "iconName": "gcx-icon",
+    "categories": [
+        "Gradle",
+        "Kotlin"
+    ]
+}
