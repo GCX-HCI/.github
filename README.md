@@ -1,8 +1,10 @@
-# gcx Shared Templates
+# gcx GitHub Templates
 
 Contains template files available in all GitHub repositories of the gcx organization.
 
-Included:
+***Attention***: Please **do not** share any confidential information in this repository, as this repository must be public for GitHub to recognize the templates. This may change in the future.
+
+## Included in this repo
 - GitHub Actions workflow templates
 - Pull Request template
 
@@ -12,4 +14,4 @@ See [GitHub Actions @ gcx](https://wiki.gcxi.de/display/TENG/GitHub%3A+Actions) 
 
 ## Supported template files
 
-See [Creating a default community health file](https://docs.github.com/en/github/building-a-strong-community/creating-a-default-community-health-file) to find out about supported template file types.
+See [Creating a default community health file](https://docs.github.com/en/github/building-a-strong-community/creating-a-default-community-health-file) to find out about supported template file types
