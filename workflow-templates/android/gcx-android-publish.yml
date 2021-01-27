@@ -1,3 +1,9 @@
+# This workflow publishes a release build of e.g. a library project 
+# to a Maven repository like GitHub Packages using the maven-publish plugin
+# It is triggered by the creation of a GitHub release
+# For more information about how to configure your project to use this, see:
+# https://wiki.gcxi.de/display/TENG/Using+GitHub+Packages+for+Android+Projects
+
 name: Publish Artifact
 
 on:

@@ -1,3 +1,8 @@
+# This workflow builds the release variant of the project after a GitHub release was created
+# The build artifact is uploaded as release artifact
+# For more information about best practices, see:
+# https://wiki.gcxi.de/display/TENG/GitHub+Actions%3A+Best+Practices
+
 name: Build Release
 
 on:
