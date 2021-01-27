@@ -1,7 +1,7 @@
 # This workflow builds the release variant of the project and uploads it to the release 
 # It is triggered by the creation of a GitHub release
 # Please note that the KeyStore credentials have to be created as secrets in your project
-# e.g. by using the GitHub CLI tool
+# e.g. by using the GitHub CLI tool (https://cli.github.com/manual/gh_secret_set)
 # For more information about best practices, see:
 # https://wiki.gcxi.de/display/TENG/GitHub+Actions%3A+Best+Practices
 
