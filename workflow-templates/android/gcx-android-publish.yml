@@ -1,3 +1,11 @@
+# This workflow publishes a release build of e.g. a library project 
+# to a Maven repository like GitHub Packages using the maven-publish plugin
+# It is triggered by the creation of a GitHub release
+# Please note that the KeyStore credentials have to be created as secrets in your project
+# e.g. by using the GitHub CLI tool (https://cli.github.com/manual/gh_secret_set)
+# For more information about how to configure your project to use this, see:
+# https://wiki.gcxi.de/display/TENG/Using+GitHub+Packages+for+Android+Projects
+
 name: Publish Artifact
 
 on:

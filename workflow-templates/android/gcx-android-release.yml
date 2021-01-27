@@ -1,3 +1,10 @@
+# This workflow builds the release variant of the project and uploads it to the release 
+# It is triggered by the creation of a GitHub release
+# Please note that the KeyStore credentials have to be created as secrets in your project
+# e.g. by using the GitHub CLI tool (https://cli.github.com/manual/gh_secret_set)
+# For more information about best practices, see:
+# https://wiki.gcxi.de/display/TENG/GitHub+Actions%3A+Best+Practices
+
 name: Build Release
 
 on:
@@ -30,8 +37,17 @@ jobs:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           ALIAS_PASSWORD: ${{ secrets.ALIAS_PASSWORD }}
         timeout-minutes: 10
-      - name: Upload build outputs
-        uses: actions/upload-artifact@v2
+      - name: Get release
+        id: get_release
+        uses: bruceadams/get-release@v1.2.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload release binary
+        uses: actions/upload-release-asset@v1.0.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: release-outputs
-          path: 'app/build/outputs/'
+          upload_url: ${{ steps.get_release.outputs.upload_url }}
+          asset_path: app/build/outputs/apk/release/app-release.apk
+          asset_name: APK
+          asset_content_type: application/octet-stream

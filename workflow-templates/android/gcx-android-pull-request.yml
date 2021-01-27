@@ -1,3 +1,10 @@
+# This workflow checks if the project can be built correctly and runs its unit tests and linter
+# After the tests have run it prints a report in the logs and uploads a report as workflow artifact
+# This workflow only runs if a Pull Request is (re-)opened and it is not a draft 
+# or after a push to develop or the default branch
+# For more information about best practices, see:
+# https://wiki.gcxi.de/display/TENG/GitHub+Actions%3A+Best+Practices
+
 name: Pull Request
 
 on:

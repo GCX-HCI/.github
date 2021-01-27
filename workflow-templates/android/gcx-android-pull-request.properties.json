@@ -1,6 +1,6 @@
 {
     "name": "gcx Android Pull Request",
-    "description": "Build a basic Pull Request for an Android repository @ gcx",
+    "description": "Build, test and analyze a Pull Request of an Android repository @ gcx",
     "iconName": "gcx-icon",
     "categories": [
         "Gradle",
