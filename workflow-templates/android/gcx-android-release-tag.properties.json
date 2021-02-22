@@ -1,0 +1,9 @@
+{
+    "name": "gcx Android Release by tag",
+    "description": "Build a release of an Android repository @ gcx by tag",
+    "iconName": "gcx-icon",
+    "categories": [
+        "Gradle",
+        "Kotlin"
+    ]
+}
