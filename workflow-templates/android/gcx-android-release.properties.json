@@ -1,6 +1,6 @@
 {
-    "name": "gcx Android Release",
-    "description": "Build a release of an Android repository @ gcx",
+    "name": "gcx Android Release triggered by GitHub Release",
+    "description": "Build a release of an Android repository @ gcx triggered by the creation of a GitHub Release",
     "iconName": "gcx-icon",
     "categories": [
         "Gradle",
