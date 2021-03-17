@@ -2,7 +2,6 @@
 # It is triggered by the creation of a tag named 'release/v*', e.g. 'release/v1.0.0'
 # The <MY RELEASE NOTES> placeholder has to be replaced with the real release notes
 # Please note that the KeyStore credentials have to be created as secrets in your project
-# e.g. by using the GitHub CLI tool (https://cli.github.com/manual/gh_secret_set)
 # For more information about best practices, see:
 # https://wiki.gcxi.de/display/TENG/GitHub+Actions%3A+Best+Practices
 
