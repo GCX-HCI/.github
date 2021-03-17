@@ -1,0 +1,47 @@
+# This workflow checks the other workflows in this repository, 
+# e.g. for Pull Requests, Releases etc., for their correctness
+# It is only triggered when changes are made to the workflows
+# For more information about best practices, see:
+# https://wiki.gcxi.de/display/TENG/GitHub+Actions%3A+Best+Practices
+
+name: Workflow Check
+
+on:
+  push:
+    branches: [ $default-branch ]
+    paths:
+      - '.github/workflows/**'
+  pull_request:
+    types: [opened, reopened, ready_for_review, synchronize]
+    paths:
+      - '.github/workflows/**'
+
+jobs:
+  runAction:
+    name: Test Workflows
+    if: github.event_name == 'push' || !github.event.pull_request.draft
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout project files
+        uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v2.1.5
+        with:
+          node-version: '12.x'
+      - name: Check PR workflow
+        id: pr
+        uses: GCX-HCI/grandcentrix-actions-validator@v0.1.5
+        with:
+          file: ${{ github.workspace }}/.github/workflows/pr.yml
+        continue-on-error: true
+      - name: Check Sprint Release workflow
+        id: release
+        uses: GCX-HCI/grandcentrix-actions-validator@v0.1.5
+        with:
+          file: ${{ github.workspace }}/.github/workflows/release.yml
+        continue-on-error: true
+      - name: Check results
+        if: steps.pr.outcome != 'success' || steps.release.outcome != 'success'
+        run: |
+          echo "At least one of the workflow checks failed. Will fail this job now"
+          exit 1
