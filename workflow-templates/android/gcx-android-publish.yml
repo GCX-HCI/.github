@@ -4,6 +4,8 @@
 # Please note that the KeyStore credentials have to be created as secrets in your project
 # For more information about how to configure your project to use this, see:
 # https://grandcentrix.atlassian.net/wiki/spaces/TENG/pages/31180229044/GitHub+Packages+for+Android+Projects
+# For more information about best practices, see:
+# https://grandcentrix.atlassian.net/wiki/spaces/TENG/pages/31180230199/GitHub+Actions+Best+Practices
 
 name: Publish Artifact
 
