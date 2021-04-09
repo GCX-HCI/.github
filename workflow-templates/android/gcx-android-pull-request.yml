@@ -3,7 +3,7 @@
 # This workflow only runs if a Pull Request is (re-)opened and it is not a draft 
 # or after a push to develop or the default branch
 # For more information about best practices, see:
-# https://wiki.gcxi.de/display/TENG/GitHub+Actions%3A+Best+Practices
+# https://grandcentrix.atlassian.net/wiki/spaces/TENG/pages/31180230199/GitHub+Actions+Best+Practices
 
 name: Pull Request
 
