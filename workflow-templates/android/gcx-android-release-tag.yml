@@ -3,7 +3,7 @@
 # The <MY RELEASE NOTES> placeholder has to be replaced with the real release notes
 # Please note that the KeyStore credentials have to be created as secrets in your project
 # For more information about best practices, see:
-# https://wiki.gcxi.de/display/TENG/GitHub+Actions%3A+Best+Practices
+# https://grandcentrix.atlassian.net/wiki/spaces/TENG/pages/31180230199/GitHub+Actions+Best+Practices
 
 name: Build Release
 
