@@ -3,7 +3,7 @@
 # It is triggered by the creation of a GitHub release
 # Please note that the KeyStore credentials have to be created as secrets in your project
 # For more information about how to configure your project to use this, see:
-# https://wiki.gcxi.de/display/TENG/Using+GitHub+Packages+for+Android+Projects
+# https://grandcentrix.atlassian.net/wiki/spaces/TENG/pages/31180229044/GitHub+Packages+for+Android+Projects
 
 name: Publish Artifact
 
