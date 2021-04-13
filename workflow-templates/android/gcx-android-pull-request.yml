@@ -12,7 +12,6 @@ on:
     branches: [ develop, $default-branch ]
   pull_request:
     types: [opened, reopened, ready_for_review, synchronize]
-    branches: [ develop, $default-branch ]
 
 jobs:
   cancelPreviousRuns:
