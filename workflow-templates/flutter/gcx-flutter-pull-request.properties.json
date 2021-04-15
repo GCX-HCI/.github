@@ -3,9 +3,9 @@
     "description": "Build, test and analyze a Pull Request of an Flutter repository @ gcx",
     "iconName": "gcx-icon",
     "categories": [
+        "Dart",
         "Gradle",
         "Kotlin",
-        "Dart",
         "Swift"
     ]
 }
