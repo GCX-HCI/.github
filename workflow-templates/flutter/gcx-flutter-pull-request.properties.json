@@ -4,8 +4,5 @@
     "iconName": "gcx-icon",
     "categories": [
         "Dart",
-        "Gradle",
-        "Kotlin",
-        "Swift"
     ]
 }
