@@ -7,6 +7,7 @@ Contains template files available in all GitHub repositories of the gcx organiza
 ## Included in this repo
 - [GitHub Actions workflow templates](https://github.com/grandcentrix/.github/tree/main/workflow-templates)
   - [Android](https://github.com/grandcentrix/.github/tree/main/workflow-templates/android)
+  - [Flutter](https://github.com/grandcentrix/.github/tree/main/workflow-templates/flutter)
 - [Pull Request template](https://github.com/grandcentrix/.github/blob/main/.github/PULL_REQUEST_TEMPLATE.md)
 
 ## Add a new workflow template
