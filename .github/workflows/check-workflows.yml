@@ -1,0 +1,55 @@
+# This workflow checks the other workflows in this repository, 
+# e.g. for Pull Requests, Releases etc., for their correctness
+# It is only triggered when changes are made to the workflows
+# For more information about best practices, see:
+# https://wiki.gcxi.de/display/TENG/GitHub+Actions%3A+Best+Practices
+
+name: Workflow Check
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'workflow-templates/**'
+  pull_request:
+    types: [opened, reopened, ready_for_review, synchronize]
+    paths:
+      - 'workflow-templates/**'
+
+jobs:
+  runAction:
+    name: Test Workflows
+    if: github.event_name == 'push' || !github.event.pull_request.draft
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout project files
+        uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v2.1.5
+        with:
+          node-version: '12.x'
+      - name: Check Android PR Workflow
+        id: android-pr
+        uses: GCX-HCI/grandcentrix-actions-validator@v0.1.5
+        with:
+          file: ${{ github.workspace }}/workflow-templates/android/gcx-android-pull-request.yml
+      - name: Check Android Release Workflow
+        id: android-release
+        uses: GCX-HCI/grandcentrix-actions-validator@v0.1.5
+        with:
+          file: ${{ github.workspace }}/workflow-templates/android/gcx-android-release.yml
+      - name: Check Android Release by Tag Workflow
+        id: android-release-tag
+        uses: GCX-HCI/grandcentrix-actions-validator@v0.1.5
+        with:
+          file: ${{ github.workspace }}/workflow-templates/android/gcx-android-release-tag.yml
+      - name: Check Android Publish Workflow
+        id: android-publish
+        uses: GCX-HCI/grandcentrix-actions-validator@v0.1.5
+        with:
+          file: ${{ github.workspace }}/workflow-templates/android/gcx-android-publish.yml
+      - name: Check results
+        if: steps.android-pr.outcome != 'success' || steps.android-release.outcome != 'success' || steps.android-release-tag.outcome != 'success' || steps.android-publish.outcome != 'success'
+        run: |
+          echo "At least one of the workflow checks failed. Will fail this job now"
+          exit 1
