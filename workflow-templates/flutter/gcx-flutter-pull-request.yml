@@ -113,5 +113,5 @@ jobs:
         run: ./flutterw analyze
         timeout-minutes: 5
       - name: Check code formatting
-        run: ./.flutter/bin/cache/dart-sdk/bin/dartfmt --set-exit-if-changed -w lib test && echo "No formatting needed. Continuing" && exit 0 || echo "Formatting needed! Aborting" && exit 1
+        run: ./flutterw format --set-exit-if-changed lib test && echo "No formatting needed. Continuing" && exit 0 || echo "Formatting needed! Aborting" && exit 1
         timeout-minutes: 5
