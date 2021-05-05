@@ -1,0 +1,8 @@
+{
+    "name": "gcx iOS Pull Request",
+    "description": "Build and Test a Pull Request of an iOS repository @ gcx",
+    "iconName": "gcx-icon",
+    "categories": [
+        "Swift"
+    ]
+}
