@@ -1,0 +1,126 @@
+# This workflow builds the release variants for Android and iOS, uploads them to a new release
+# and distributes them via firebase
+# It is triggered by the creation of a release tag
+# Please note that the Android KeyStore credentials and the iOS distribution certificate
+# have to be created as secrets in your project
+# For more information about best practices, see:
+# https://grandcentrix.atlassian.net/wiki/spaces/TENG/pages/31180230199/GitHub+Actions+Best+Practices
+
+name: Build Release
+
+on:
+  push:
+    tags:
+      - 'release/v*'
+
+jobs:
+  build_release_android:
+    name: Build Release Android
+    runs-on: ubuntu-latest
+    outputs:
+      version-name: ${{ steps.version.outputs.version-name }}
+    timeout-minutes: 30
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Enable private dependencies
+        run: git config --global url."https://${{ github.actor }}:${{ secrets.REPO_READ_TOKEN }}@github.com/".insteadOf "git@github.com:"
+      - name: Cache dart packages
+        uses: actions/cache@v2.1.5
+        with:
+          path: |
+            /opt/hostedtoolcache/flutter
+            ~/.pub-cache
+          key: ${{ runner.os }}-flutter-android
+      - name: Accept Android licenses
+        run: yes | ${ANDROID_HOME}/tools/bin/sdkmanager --licenses
+      - name: Run Flutter doctor
+        run: ./flutterw doctor --verbose
+        timeout-minutes: 10
+      - name: Get Dart packages
+        run: ./flutterw pub get
+        timeout-minutes: 10
+      - name: Get version name for release name
+        id: version
+        run: |
+          pubspecVersion=$(cat pubspec.yaml | grep 'version\:\ ' | sed -e "s/^.*[[:blank:]]//" -e "s/^\"//" -e "s/\"$//")
+          echo "::set-output name=version-name::$pubspecVersion"
+      - name: Build Release
+        run: ./flutterw build apk --release --build-number=${{ github.run_number }} --build-name=${{ steps.version.outputs.version-name }}
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          ALIAS_PASSWORD: ${{ secrets.ALIAS_PASSWORD }}
+        timeout-minutes: 10
+      - name: Upload workflow artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: apk
+          path: "build/app/outputs/flutter-apk/app-release.apk"
+
+  build_release_ios:
+    name: Build Release iOS
+    runs-on: macos-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup Codesign
+        uses: apple-actions/import-codesign-certs@v1
+        with:
+          keychain: signing_temp
+          create-keychain: true
+          p12-file-base64: ${{ secrets.DISTRIBUTION_CERTIFICATE_P12 }}
+          p12-password: ${{ secrets.DISTRIBUTION_CERTIFICATE_P12_PASSWORD }}
+      - name: Install Provisioning Profile
+        run: |
+          mkdir -p "$HOME/Library/MobileDevice/Provisioning Profiles"
+          for PROVISION in `ls ./ios/*.mobileprovision`
+          do
+            UUID=`/usr/libexec/PlistBuddy -c 'Print :UUID' /dev/stdin <<< $(security cms -D -i ./$PROVISION)`
+            cp "./$PROVISION" "$HOME/Library/MobileDevice/Provisioning Profiles/$UUID.mobileprovision"
+          done
+      - name: Enable private dependencies
+        run: git config --global url."https://${{ github.actor }}:${{ secrets.REPO_READ_TOKEN }}@github.com/".insteadOf "git@github.com:"
+      - name: Cache dart packages
+        uses: actions/cache@v2.1.5
+        with:
+          path: |
+            /Users/runner/hostedtoolcache/flutter
+            ~/.pub-cache
+          key: ${{ runner.os }}-flutter-ios
+      - name: Run Flutter doctor
+        run: ./flutterw doctor --verbose
+        timeout-minutes: 10
+      - name: Get Dart packages
+        run: ./flutterw pub get
+        timeout-minutes: 10
+      - name: Build Release
+        run: ./flutterw build ipa --release --export-options-plist=ios/exportOptions.plist --build-number=${{ github.run_number }}
+        timeout-minutes: 10
+      - name: Upload workflow artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ipa
+          path: "build/ios/ipa/myApp.ipa"
+
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs:
+      - build_release_android
+      - build_release_ios
+    steps:
+      - name: Download workflow artifacts
+        uses: actions/download-artifact@v2
+        with:
+          path: artifacts
+      - name: Create GitHub release
+        id: github_release
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          name: Release ${{needs.build_release_android.outputs.version-name}}
+          files: "**/artifacts/**"
+          prerelease: true

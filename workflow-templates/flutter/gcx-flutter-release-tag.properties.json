@@ -1,0 +1,6 @@
+{
+    "name": "gcx Flutter Release triggered by tag",
+    "description": "Build a release of a Flutter repository @ gcx triggered by the creation of a release tag",
+    "iconName": "gcx-icon",
+    "categories": ["Dart"]
+}
