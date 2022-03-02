@@ -11,18 +11,12 @@ on:
     branches: [ develop, $default-branch ]
   pull_request:
     types: [opened, reopened, ready_for_review, synchronize]
-      
-jobs:
-  cancelPreviousRuns:
-    name: Cancel previous runs
-    if: github.event_name == 'push' || !github.event.pull_request.draft
-    runs-on: ubuntu-latest
-    steps:
-      - name: Cancel previous runs
-        uses: styfle/cancel-workflow-action@0.9.0
-        with:
-          access_token: ${{ secrets.GITHUB_TOKEN }}
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
   test:
     name: Build and Run tests
     if: github.event_name == 'push' || !github.event.pull_request.draft
