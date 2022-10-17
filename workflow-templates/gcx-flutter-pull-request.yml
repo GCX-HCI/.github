@@ -1,0 +1,111 @@
+# This workflow checks if the project can be built correctly for Android and iOS and runs its unit tests
+# This workflow only runs if a Pull Request is (re-)opened and it is not a draft 
+# or after a push to the default branch
+# For more information about best practices, see:
+# https://grandcentrix.atlassian.net/wiki/spaces/TENG/pages/31180230199/GitHub+Actions+Best+Practices
+
+name: Pull Request
+
+on:
+  push:
+    branches: [ develop, $default-branch ]
+    paths-ignore:
+      - 'README.md'
+  pull_request:
+    types: [opened, reopened, ready_for_review, synchronize]
+    paths-ignore:
+      - 'README.md'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build_android:
+    name: Build Android App
+    if: github.event_name == 'push' || !github.event.pull_request.draft
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout project files
+        uses: actions/checkout@v2
+      - name: Enable private dependencies
+        run: git config --global url."https://${{ github.actor }}:${{ secrets.REPO_READ_TOKEN }}@github.com/".insteadOf "git@github.com:"
+      - name: Cache dart packages
+        uses: actions/cache@v2.1.4
+        with:
+          path: |
+            /opt/hostedtoolcache/flutter
+            ~/.pub-cache
+          key: ${{ runner.os }}-flutter-android
+      - name: Accept Android licenses
+        run: yes | ${ANDROID_HOME}/tools/bin/sdkmanager --licenses
+      - name: Run Flutter doctor
+        run: ./flutterw doctor --verbose
+        timeout-minutes: 5
+      - name: Get Dart packages
+        run: ./flutterw pub get
+        timeout-minutes: 5
+      - name: Build Android App
+        run: ./flutterw build apk --debug
+        timeout-minutes: 10
+
+  build_ios:
+    name: Build iOS App
+    if: github.event_name == 'push' || !github.event.pull_request.draft
+    runs-on: macos-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout project files
+        uses: actions/checkout@v2
+      - name: Enable private dependencies
+        run: git config --global url."https://${{ github.actor }}:${{ secrets.REPO_READ_TOKEN }}@github.com/".insteadOf "git@github.com:"
+      - name: Cache dart packages
+        uses: actions/cache@v2.1.4
+        with:
+          path: |
+            /Users/runner/hostedtoolcache/flutter
+            ~/.pub-cache
+          key: ${{ runner.os }}-flutter-ios
+      - name: Run Flutter doctor
+        run: ./flutterw doctor --verbose
+        timeout-minutes: 5
+      - name: Get Dart packages
+        run: ./flutterw pub get
+        timeout-minutes: 5
+      - name: Build iOS App
+        run: ./flutterw build ios --debug --no-codesign
+        timeout-minutes: 10
+
+  test:
+    name: Run Unit Tests & Check Code Formatting
+    if: github.event_name == 'push' || !github.event.pull_request.draft
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout project files
+        uses: actions/checkout@v2
+      - name: Enable private dependencies
+        run: git config --global url."https://${{ github.actor }}:${{ secrets.REPO_READ_TOKEN }}@github.com/".insteadOf "git@github.com:"
+      - name: Cache dart packages
+        uses: actions/cache@v2.1.4
+        with:
+          path: |
+            /opt/hostedtoolcache/flutter
+            ~/.pub-cache
+          key: ${{ runner.os }}-flutter-tests
+      - name: Run Flutter doctor
+        run: ./flutterw doctor --verbose
+        timeout-minutes: 5
+      - name: Get Dart packages
+        run: ./flutterw pub get
+        timeout-minutes: 5
+      - name: Run tests
+        run: ./flutterw test --coverage
+        timeout-minutes: 10
+      - name: Analyze
+        run: ./flutterw analyze
+        timeout-minutes: 5
+      - name: Check code formatting
+        run: ./flutterw format --set-exit-if-changed lib test && echo "No formatting needed. Continuing" && exit 0 || echo "Formatting needed! Aborting" && exit 1
+        timeout-minutes: 5
