@@ -23,31 +23,31 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout project files
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.5.0
       - name: Use Node.js
-        uses: actions/setup-node@v2.1.5
+        uses: actions/setup-node@v3.5.1
         with:
           node-version: '12.x'
       - name: Check Android PR Workflow
         id: android-pr
         uses: GCX-HCI/grandcentrix-actions-validator@v0.1.5
         with:
-          file: ${{ github.workspace }}/workflow-templates/android/gcx-android-pull-request.yml
+          file: ${{ github.workspace }}/workflow-templates/gcx-android-pull-request.yml
       - name: Check Android Release Workflow
         id: android-release
         uses: GCX-HCI/grandcentrix-actions-validator@v0.1.5
         with:
-          file: ${{ github.workspace }}/workflow-templates/android/gcx-android-release.yml
+          file: ${{ github.workspace }}/workflow-templates/gcx-android-release.yml
       - name: Check Android Release by Tag Workflow
         id: android-release-tag
         uses: GCX-HCI/grandcentrix-actions-validator@v0.1.5
         with:
-          file: ${{ github.workspace }}/workflow-templates/android/gcx-android-release-tag.yml
+          file: ${{ github.workspace }}/workflow-templates/gcx-android-release-tag.yml
       - name: Check Android Publish Workflow
         id: android-publish
         uses: GCX-HCI/grandcentrix-actions-validator@v0.1.5
         with:
-          file: ${{ github.workspace }}/workflow-templates/android/gcx-android-publish.yml
+          file: ${{ github.workspace }}/workflow-templates/gcx-android-publish.yml
       - name: Check results
         if: steps.android-pr.outcome != 'success' || steps.android-release.outcome != 'success' || steps.android-release-tag.outcome != 'success' || steps.android-publish.outcome != 'success'
         run: |
