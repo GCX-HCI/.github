@@ -1,5 +1,0 @@
-{
-    "name": "gcx Workflow check",
-    "description": "Check the workflows in your repository for correctness",
-    "iconName": "gcx-icon"
-}
