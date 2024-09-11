@@ -65,11 +65,6 @@ jobs:
       - name: Run lint
         run: ./gradlew lintDebug
         timeout-minutes: 5
-      - name: Annotate PR with Lint Report
-        uses: yutailang0119/action-android-lint@v3.1.0
-        if: always() # always run even if the previous step fails
-        with:
-          xml_path: '**/build/reports/lint-results-debug.xml'
       - name: Upload test and lint reports
         uses: actions/upload-artifact@v2
         with:
