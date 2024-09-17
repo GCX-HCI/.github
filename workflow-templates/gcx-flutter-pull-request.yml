@@ -32,7 +32,7 @@ jobs:
       - name: Enable private dependencies
         run: git config --global url."https://${{ github.actor }}:${{ secrets.REPO_READ_TOKEN }}@github.com/".insteadOf "git@github.com:"
       - name: Cache dart packages
-        uses: actions/cache@v3.0.11
+        uses: actions/cache@v4.0.2
         with:
           path: |
             /opt/hostedtoolcache/flutter
@@ -61,7 +61,7 @@ jobs:
       - name: Enable private dependencies
         run: git config --global url."https://${{ github.actor }}:${{ secrets.REPO_READ_TOKEN }}@github.com/".insteadOf "git@github.com:"
       - name: Cache dart packages
-        uses: actions/cache@v3.0.11
+        uses: actions/cache@v4.0.2
         with:
           path: |
             /Users/runner/hostedtoolcache/flutter
@@ -88,7 +88,7 @@ jobs:
       - name: Enable private dependencies
         run: git config --global url."https://${{ github.actor }}:${{ secrets.REPO_READ_TOKEN }}@github.com/".insteadOf "git@github.com:"
       - name: Cache dart packages
-        uses: actions/cache@v3.0.11
+        uses: actions/cache@v4.0.2
         with:
           path: |
             /opt/hostedtoolcache/flutter
