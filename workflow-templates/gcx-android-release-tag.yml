@@ -28,15 +28,8 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: 8
-      - name: Cache gradle wrapper and packages
-        uses: actions/cache@v3.0.11
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@16bf8bc8fe830fa669c3c9f914d3eb147c629707 # v4.0.1
       - name: Build Release
         run: ./gradlew assembleRelease
         env:
@@ -45,19 +38,11 @@ jobs:
         timeout-minutes: 10
       - name: Create github release
         id: github_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: softprops/action-gh-release@c062e08bd532815e2082a85e87e3ef29c3e6d191 # v2.0.8
         with:
           tag_name: ${GITHUB_REF#refs/*/}
-          release_name: Release $(cat app/build.gradle | grep 'versionName ' | sed -e "s/^.*[[:blank:]]//" -e "s/^\"//" -e "s/\"$//")
-          body: <MY RELEASE NOTES>
-      - name: Upload release binary
-        uses: actions/upload-release-asset@v1.0.2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.github_release.outputs.upload_url }}
-          asset_path: app/build/outputs/apk/release/app-release.apk
-          asset_name: app-release.apk
-          asset_content_type: application/octet-stream
+          name: Release $(cat app/build.gradle | grep 'versionName ' | sed -e "s/^.*[[:blank:]]//" -e "s/^\"//" -e "s/\"$//")
+          prerelease: false
+          generate_release_notes: true
+          files: |
+            app/build/outputs/apk/release/app-release.apk

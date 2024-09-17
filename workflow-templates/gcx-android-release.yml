@@ -26,15 +26,8 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: 8
-      - name: Cache gradle wrapper and packages
-        uses: actions/cache@v3.0.11
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@16bf8bc8fe830fa669c3c9f914d3eb147c629707 # v4.0.1
       - name: Build Release
         run: ./gradlew assembleRelease
         env:
@@ -47,11 +40,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload release binary
-        uses: actions/upload-release-asset@v1.0.2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        id: github_release
+        uses: softprops/action-gh-release@c062e08bd532815e2082a85e87e3ef29c3e6d191 # v2.0.8
         with:
-          upload_url: ${{ steps.get_release.outputs.upload_url }}
-          asset_path: app/build/outputs/apk/release/app-release.apk
-          asset_name: app-release.apk
-          asset_content_type: application/octet-stream
+          tag_name: ${{ steps.get_release.outputs.tag_name }}
+          files: |
+            app/build/outputs/apk/release/app-release.apk
