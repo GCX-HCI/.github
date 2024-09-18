@@ -12,7 +12,7 @@ on:
     paths-ignore:
       - 'README.md'
   pull_request:
-    types: [opened, reopened, ready_for_review, synchronize]
+    types: [ opened, reopened, ready_for_review, synchronize ]
     paths-ignore:
       - 'README.md'
 
@@ -28,11 +28,11 @@ jobs:
     timeout-minutes: 30
     steps:
       - name: Checkout project files
-        uses: actions/checkout@v3.1.0
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
       - name: Enable private dependencies
         run: git config --global url."https://${{ github.actor }}:${{ secrets.REPO_READ_TOKEN }}@github.com/".insteadOf "git@github.com:"
       - name: Cache dart packages
-        uses: actions/cache@v3.0.11
+        uses: actions/cache@v0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2
         with:
           path: |
             /opt/hostedtoolcache/flutter
@@ -57,11 +57,11 @@ jobs:
     timeout-minutes: 30
     steps:
       - name: Checkout project files
-        uses: actions/checkout@v3.1.0
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
       - name: Enable private dependencies
         run: git config --global url."https://${{ github.actor }}:${{ secrets.REPO_READ_TOKEN }}@github.com/".insteadOf "git@github.com:"
       - name: Cache dart packages
-        uses: actions/cache@v3.0.11
+        uses: actions/cache@v0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2
         with:
           path: |
             /Users/runner/hostedtoolcache/flutter
@@ -84,11 +84,11 @@ jobs:
     timeout-minutes: 30
     steps:
       - name: Checkout project files
-        uses: actions/checkout@v3.1.0
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
       - name: Enable private dependencies
         run: git config --global url."https://${{ github.actor }}:${{ secrets.REPO_READ_TOKEN }}@github.com/".insteadOf "git@github.com:"
       - name: Cache dart packages
-        uses: actions/cache@v3.0.11
+        uses: actions/cache@v0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2
         with:
           path: |
             /opt/hostedtoolcache/flutter

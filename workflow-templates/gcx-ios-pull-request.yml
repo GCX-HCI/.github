@@ -10,7 +10,7 @@ on:
   push:
     branches: [ develop, $default-branch ]
   pull_request:
-    types: [opened, reopened, ready_for_review, synchronize]
+    types: [ opened, reopened, ready_for_review, synchronize ]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -22,7 +22,7 @@ jobs:
     if: github.event_name == 'push' || !github.event.pull_request.draft
     runs-on: macos-latest
     steps:
-    - uses: actions/checkout@v3.1.0
-    - name: Run tests
-      run: swift test -v
-      timeout-minutes: 10
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - name: Run tests
+        run: swift test -v
+        timeout-minutes: 10

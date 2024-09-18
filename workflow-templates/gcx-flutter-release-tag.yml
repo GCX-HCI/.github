@@ -26,11 +26,11 @@ jobs:
     timeout-minutes: 30
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3.1.0
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
       - name: Enable private dependencies
         run: git config --global url."https://${{ github.actor }}:${{ secrets.REPO_READ_TOKEN }}@github.com/".insteadOf "git@github.com:"
       - name: Cache dart packages
-        uses: actions/cache@v3.0.11
+        uses: actions/cache@v0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2
         with:
           path: |
             /opt/hostedtoolcache/flutter
@@ -56,7 +56,7 @@ jobs:
           ALIAS_PASSWORD: ${{ secrets.ALIAS_PASSWORD }}
         timeout-minutes: 10
       - name: Upload workflow artifact
-        uses: actions/upload-artifact@v3.1.1
+        uses: actions/upload-artifact@50769540e7f4bd5e21e526ee35c689e35e0d6874 # v4.4.0
         with:
           name: apk
           path: "build/app/outputs/flutter-apk/app-release.apk"
@@ -67,9 +67,9 @@ jobs:
     timeout-minutes: 30
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3.1.0
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
       - name: Setup Codesign
-        uses: apple-actions/import-codesign-certs@v1
+        uses: apple-actions/import-codesign-certs@63fff01cd422d4b7b855d40ca1e9d34d2de9427d # v3
         with:
           keychain: signing_temp
           create-keychain: true
@@ -86,7 +86,7 @@ jobs:
       - name: Enable private dependencies
         run: git config --global url."https://${{ github.actor }}:${{ secrets.REPO_READ_TOKEN }}@github.com/".insteadOf "git@github.com:"
       - name: Cache dart packages
-        uses: actions/cache@v3.0.11
+        uses: actions/cache@v0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2
         with:
           path: |
             /Users/runner/hostedtoolcache/flutter
@@ -102,7 +102,7 @@ jobs:
         run: ./flutterw build ipa --release --export-options-plist=ios/exportOptions.plist --build-number=${{ github.run_number }}
         timeout-minutes: 10
       - name: Upload workflow artifact
-        uses: actions/upload-artifact@v3.1.1
+        uses: actions/upload-artifact@50769540e7f4bd5e21e526ee35c689e35e0d6874 # v4.4.0
         with:
           name: ipa
           path: "build/ios/ipa/myApp.ipa"
@@ -116,12 +116,12 @@ jobs:
       - build_release_ios
     steps:
       - name: Download workflow artifacts
-        uses: actions/download-artifact@v3.0.1
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4.1.8
         with:
           path: artifacts
       - name: Create GitHub release
         id: github_release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@c062e08bd532815e2082a85e87e3ef29c3e6d191 # v2.0.8
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
