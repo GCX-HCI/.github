@@ -38,7 +38,7 @@ jobs:
         timeout-minutes: 10
       - name: Create github release
         id: github_release
-        uses: softprops/action-gh-release@c062e08bd532815e2082a85e87e3ef29c3e6d191 # v2.0.8
+        uses: softprops/action-gh-release@e7a8f85e1c67a31e6ed99a94b41bd0b71bbee6b8 # v2.0.9
         with:
           tag_name: ${GITHUB_REF#refs/*/}
           name: Release $(cat app/build.gradle | grep 'versionName ' | sed -e "s/^.*[[:blank:]]//" -e "s/^\"//" -e "s/\"$//")
