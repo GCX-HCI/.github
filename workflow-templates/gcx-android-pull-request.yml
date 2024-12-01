@@ -56,7 +56,7 @@ jobs:
         run: ./gradlew testDebugUnitTest --continue
         timeout-minutes: 10
       - name: Annotate PR with JUnit Report
-        uses: mikepenz/action-junit-report@db71d41eb79864e25ab0337e395c352e84523afe # v4.3.1
+        uses: mikepenz/action-junit-report@992d97d6eb2e5f3de985fbf9df6a04386874114d # v5.1.0
         if: always() # always run even if the previous step fails
         with:
           report_paths: '**/build/test-results/**/TEST-*.xml'
